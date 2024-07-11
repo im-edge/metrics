@@ -3,10 +3,14 @@
 namespace IMEdge\Metrics;
 
 use gipfl\Json\JsonSerialization;
+use RuntimeException;
 
 class Ci implements JsonSerialization
 {
-    public function __construct(
+    /**
+     * @param array<string, int|string>|null $tags
+     */
+    final public function __construct(
         public readonly ?string $hostname = null,
         public readonly ?string $subject = null,
         public readonly ?string $instance = null,
@@ -16,9 +20,21 @@ class Ci implements JsonSerialization
 
     public static function fromSerialization($any): Ci
     {
+        if (! is_array($any)) {
+            throw new RuntimeException(sprintf(
+                '%s::%s() expects an array, got %s',
+                __CLASS__,
+                __METHOD__,
+                get_debug_type($any)
+            ));
+        }
+
         return new static(...$any);
     }
 
+    /**
+     * @return array{0: ?string, 1: ?string, 2: ?string, 3: array<string, int|string>|null}
+     */
     public function jsonSerialize(): array
     {
         return [$this->hostname, $this->subject, $this->instance, $this->tags];
