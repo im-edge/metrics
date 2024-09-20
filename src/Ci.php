@@ -28,6 +28,9 @@ class Ci implements JsonSerialization
                 get_debug_type($any)
             ));
         }
+        if (isset($any[3])) {
+            $any[3] = (array) $any[3];
+        }
 
         return new static(...$any);
     }
