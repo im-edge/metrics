@@ -2,7 +2,7 @@
 
 namespace IMEdge\Metrics;
 
-use gipfl\Json\JsonSerialization;
+use IMEdge\Json\JsonSerialization;
 use RuntimeException;
 
 class Ci implements JsonSerialization

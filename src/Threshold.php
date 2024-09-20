@@ -2,7 +2,7 @@
 
 namespace IMEdge\Metrics;
 
-use gipfl\Json\JsonSerialization;
+use IMEdge\Json\JsonSerialization;
 
 /**
  * @deprecated It's not deprecated, but should be re-checked, before being used

@@ -24,7 +24,7 @@
     },
     "require": {
         "php": ">=8.1",
-        "gipfl/json": "^0.2.0"
+        "imedge/json": ">=0.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",

@@ -2,8 +2,8 @@
 
 namespace IMEdge\Metrics;
 
-use gipfl\Json\JsonSerialization;
-use gipfl\Json\JsonString;
+use IMEdge\Json\JsonSerialization;
+use IMEdge\Json\JsonString;
 use InvalidArgumentException;
 use RuntimeException;
 
