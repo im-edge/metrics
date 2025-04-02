@@ -12,10 +12,20 @@ class Metric implements JsonSerialization
 
     public function __construct(
         public readonly string $label,
-        public int|float|null $value, // -INF, INF, NAN -> float
+        public string|int|float|null $value, // -INF, INF, NAN -> float
         ?MetricDatatype $type = null,
         public readonly ?string $unit = null
     ) {
+        if (is_string($value)) {
+            if (
+                $value !== 'INF'
+                && $value !== '-INF'
+                && $value !== 'NAN'
+                && ! is_numeric($this->value)
+            ) {
+                throw new \RuntimeException('Not a number, and not INF, -INF or NAN: ' . $value);
+            }
+        }
         $this->type = $type ?: MetricDatatype::GAUGE;
     }
 
@@ -39,43 +49,7 @@ class Metric implements JsonSerialization
         if ($value === null) {
             return null;
         }
-        if ($value === INF) {
-            return 'INF';
-        }
-        if ($value === -INF) {
-            return '-INF';
-        }
-        if ($value === NAN) {
-            return 'NAN';
-        }
-
-        if (is_int($value)) {
-            return $value;
-        }
-
-        return (float) $value;
-    }
-
-    protected static function numberFromSerialization(int|float|string|null $value): float|int|null
-    {
-        if ($value === null) {
-            return null;
-        }
-        if ($value === 'INF') {
-            return INF;
-        }
-        if ($value === '-INF') {
-            return -INF;
-        }
-        if ($value === 'NAN') {
-            return NAN;
-        }
-
-        if (ctype_digit($value)) {
-            return (int) $value;
-        }
-
-        return floatval($value);
+        return (string) $value;
     }
 
     public static function fromSerialization($any): self
